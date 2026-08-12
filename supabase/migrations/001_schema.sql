@@ -187,6 +187,7 @@ BEGIN
       RAISE EXCEPTION 'Product % is not available', v_item->>'product_id';
     END IF;
 
+    --stock insufficiency check
     v_current_qty := v_product.quantity;
     IF v_current_qty < (v_item->>'quantity')::INTEGER THEN
       RAISE EXCEPTION 'Insufficient stock for product %. Available: %, Requested: %',
