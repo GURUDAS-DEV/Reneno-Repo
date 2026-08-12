@@ -20,9 +20,7 @@ afterAll(async () => {
   await cleanupTestUser(customer.id);
 });
 
-// =============================================
 // TEST 1: Seller A creates a product (Success)
-// =============================================
 describe('Test 1: Seller creates a product', () => {
   it('should allow Seller A to create a product successfully', async () => {
     const res = await request(app)
@@ -47,9 +45,7 @@ describe('Test 1: Seller creates a product', () => {
   });
 });
 
-// =============================================
 // TEST 2: Seller B cannot modify Seller A's product (403 / RLS)
-// =============================================
 describe('Test 2: Cross-seller isolation', () => {
   it('should deny Seller B from updating Seller A product', async () => {
     const res = await request(app)
@@ -71,9 +67,7 @@ describe('Test 2: Cross-seller isolation', () => {
   });
 });
 
-// =============================================
 // TEST 3: Customer orders an available product (Success)
-// =============================================
 describe('Test 3: Customer places a valid order', () => {
   it('should allow customer to order an available product', async () => {
     const res = await request(app)
@@ -91,9 +85,7 @@ describe('Test 3: Customer places a valid order', () => {
   });
 });
 
-// =============================================
 // TEST 4: Customer orders more than available stock (409)
-// =============================================
 describe('Test 4: Insufficient stock rejection', () => {
   it('should reject order when quantity exceeds available stock', async () => {
     // Stock was 5, we used 1 in Test 3 → 4 remaining. Request 100.
@@ -110,10 +102,8 @@ describe('Test 4: Insufficient stock rejection', () => {
   });
 });
 
-// =============================================
 // TEST 5: Race Condition — Two simultaneous orders for last item
 // Exactly one should succeed, the other gets 409
-// =============================================
 describe('Test 5: Concurrent stock race condition', () => {
   let raceProduct: any;
 

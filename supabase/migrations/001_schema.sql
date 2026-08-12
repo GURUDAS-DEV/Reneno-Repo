@@ -146,11 +146,9 @@ CREATE TRIGGER trg_inventory_updated_at BEFORE UPDATE ON inventory
 CREATE TRIGGER trg_orders_updated_at BEFORE UPDATE ON orders
   FOR EACH ROW EXECUTE FUNCTION update_timestamp();
 
--- =============================================
 -- Atomic Order Placement Function (B1 - 20 pts)
 -- Uses SELECT FOR UPDATE to lock inventory rows,
 -- validates stock, creates order + items atomically.
--- =============================================
 
 CREATE OR REPLACE FUNCTION place_order_atomic(
   p_customer_id UUID,
