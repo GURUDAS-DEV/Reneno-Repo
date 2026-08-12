@@ -1,4 +1,4 @@
-import { supabaseAdmin } from '../../core/database/supabase.js';
+import { supabaseAdmin, supabase } from '../../core/database/supabase.js';
 import { AppError } from '../../core/errors/app-error.js';
 import { SignupInput, LoginInput } from './auth.schema.js';
 
@@ -26,9 +26,8 @@ export async function signup(input: SignupInput) {
     });
 
   if (profileError) {
-    // Rollback: delete auth user if profile creation fails
     await supabaseAdmin.auth.admin.deleteUser(authData.user.id);
-    throw AppError.internal('Failed to create user profile');
+    throw AppError.internal(`Failed to create user profile: ${profileError.message}`);
   }
 
   // Auto-create store for sellers
@@ -46,8 +45,8 @@ export async function signup(input: SignupInput) {
     }
   }
 
-  // Sign in to get tokens
-  const { data: session, error: signInError } = await supabaseAdmin.auth.signInWithPassword({
+  // Sign in using anon client to get proper JWT tokens
+  const { data: session, error: signInError } = await supabase.auth.signInWithPassword({
     email: input.email,
     password: input.password,
   });
@@ -71,7 +70,7 @@ export async function signup(input: SignupInput) {
 }
 
 export async function login(input: LoginInput) {
-  const { data, error } = await supabaseAdmin.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email: input.email,
     password: input.password,
   });
