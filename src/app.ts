@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { errorHandler } from './core/middleware/error-handler.js';
+import { authRouter } from './modules/auth/auth.routes.js';
 
 export const app = express();
 
@@ -14,5 +15,8 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Centralized Error Handler
+// API Routes
+app.use('/api/auth', authRouter);
+
+// Centralized Error Handler (must be last)
 app.use(errorHandler);
