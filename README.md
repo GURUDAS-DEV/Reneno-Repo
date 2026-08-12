@@ -501,8 +501,13 @@ If given 2 more days, I would implement:
 
 ### D3. Where Did You Use a Library or AI Assistant, and What Did You Learn?
 
-#### AI Assistant Usage
-An AI assistant was used for code scaffolding, verifying SQL constraints, generating test boilerplate, and structuring the scaling architecture documentation.
+#### AI Assistant Usage & Architectural Brainstorming
+
+AI tools were leveraged as an active engineering partner throughout this project:
+
+- **System Architecture & High-Scale Design**: Used for brainstorming evolution strategies for scaling to 10M+ users — analyzing where to introduce asynchronous background workers (BullMQ for outbox event delivery), multi-tier Redis caching, and how to eliminate database connection bottlenecks under high-volume order spikes.
+- **Code Scaffolding & Validation**: Assisting with TypeScript boilerplate, Zod schema validation rules, SQL migration syntax, and structuring Vitest test suites to simulate realistic `Promise.all` concurrency races.
+- **Security & Concurrency Audit**: Iterating on PostgreSQL Row Level Security (RLS) policies to ensure strict tenant isolation, and verifying row-locking mechanics (`SELECT FOR UPDATE`) for zero-loss stock management.
 
 #### Key Libraries & Technical Rationale
 

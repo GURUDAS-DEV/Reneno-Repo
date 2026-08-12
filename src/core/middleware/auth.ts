@@ -41,7 +41,7 @@ export async function authenticate(req: Request, _res: Response, next: NextFunct
   }
 }
 
-// Role guard factory
+// Authorizes User
 export function authorize(...allowedRoles: UserRole[]) {
   return (req: Request, _res: Response, next: NextFunction) => {
     if (!req.user) {
